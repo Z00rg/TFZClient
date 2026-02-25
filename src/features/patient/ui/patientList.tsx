@@ -91,17 +91,19 @@ export function PatientList({ onOpenPatient }: { onOpenPatient: (patient: Patien
             ))}
 
             {/* Кнопка добавления пациента */}
-            <UiModal button={
+            {!isLoading && !isError && <UiModal button={
                 <Button
                     variant="secondary"
-                    className="w-full min-h-18 text-4xl text-blue-800 font-medium bg-blue-100 hover:border hover:border-blue-500 hover:bg-blue-100">
+                    className="mt-4 w-full min-h-18 text-4xl text-blue-800 font-medium bg-blue-100 hover:border hover:border-blue-500 hover:bg-blue-100">
                     +
                 </Button>
             }>
                 {({close}) => (
                     <CreatePatientForm closeModal={close}/>
                 )}
-            </UiModal>
+            </UiModal>}
+
+
         </div>
     );
 }
