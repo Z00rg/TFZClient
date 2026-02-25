@@ -1,33 +1,53 @@
-import {useCreateCaseMutation} from "@/entities/case";
-import {useForm} from "react-hook-form";
-import {CreateCase} from "@/shared/api/caseApi";
+"use client";
 
-export type useCreateCaseMutationProps = {
+import { useCreateCaseMutation } from "@/entities/case";
+import { useForm, useWatch } from "react-hook-form";
+import { CreateCase } from "@/shared/api/caseApi";
+import { useEffect } from "react";
+
+export type UseCreateCaseFormProps = {
     closeModal: () => void;
-    patient: string;
-}
+    idPatient: string;
+    age: number;
+    gender: 0 | 1;
+};
 
-export function useCreateCase({ closeModal, patient }: useCreateCaseMutationProps) {
-
+export function useCreateCaseForm({ closeModal, idPatient }: UseCreateCaseFormProps) {
     const {
         handleSubmit,
         control,
-        formState: { errors, isSubmitting }
+        setValue,
+        formState: { errors, isSubmitting },
     } = useForm<CreateCase>({
         defaultValues: {
+            patient: idPatient,
             diagnosis: "",
-        }
+            patient_par: {
+                st4: "",
+                ttg: "",
+                atrttg: "",
+                thyroid_volume: "",
+                eop_stage: "",
+                thyrostatic_daily_dose_mg: "",
+                thyrostatic_therapy_duration_months: "",
+                ccc_complications: false,
+                compression_syndrome: false,
+                slco1b1_polymorphism: false,
+                multiple_thyroid_nodules: false,
+            },
+        },
     });
 
-    const createCaseMutation = useCreateCaseMutation({onSuccessActions: [closeModal]});
+    const multipleNodules = useWatch({ control, name: "patient_par.multiple_thyroid_nodules" });
+
+    useEffect(() => {
+        setValue("diagnosis", multipleNodules ? "МТЗ" : "ДТЗ");
+    }, [multipleNodules, setValue]);
+
+    const createCaseMutation = useCreateCaseMutation({ onSuccessActions: [closeModal] });
 
     const onSubmit = (data: CreateCase) => {
-        const payload: CreateCase = {
-            ...data,
-            patient: patient
-        };
-
-        createCaseMutation.mutate(payload);
+        createCaseMutation.mutate({ ...data, patient: idPatient });
     };
 
     return {
@@ -35,5 +55,5 @@ export function useCreateCase({ closeModal, patient }: useCreateCaseMutationProp
         errors,
         handleSubmit: handleSubmit(onSubmit),
         isSubmitting: isSubmitting || createCaseMutation.isPending,
-    }
+    };
 }

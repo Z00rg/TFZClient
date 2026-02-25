@@ -4,18 +4,10 @@
 import {useState} from "react";
 import {useProfileQuery} from "@/entities/profile";
 import {SignOutButton} from "@/features/auth";
-import dynamic from "next/dynamic";
 import {PatientCard} from "@/shared/ui/PatientCard";
 import {PatientCasesList, PatientList} from "@/features/patient";
 import {Patient, PatientCase} from "@/shared/api/patientApi";
-import {UiModal} from "@/shared/ui/UiModal";
-import {Button} from "@/shared/ui/Button";
-import {UploadDicomForm} from "@/features/case/ui/uploadDicomForm";
-
-const DicomViewer = dynamic(
-    () => import("@/shared/ui/DicomViewer"),
-    {ssr: false}
-);
+import {UiTextArea} from "@/shared/ui/ui-textarea";
 
 export default function DentalImplantDashboard() {
 
@@ -165,43 +157,11 @@ export default function DentalImplantDashboard() {
                         {selectedPatient && (
                             <PatientCasesList
                                 selectedCase={selectedCase}
+                                selectedPatient={selectedPatient}
                                 setSelectedCase={setSelectedCase}
                                 idPatient={selectedPatient?.id}
                                 onOpenCase={setSelectedCase}
                             />
-                        )}
-
-                        {/* CT/MRI Scan Viewer */}
-                        {selectedCase && (
-                            <div
-                                className="bg-gradient-to-r from-white to-gray-50 p-4 sm:p-6 rounded-xl shadow-lg border border-gray-200/50">
-                                <div className="flex items-center justify-between mb-4">
-                                    <h2 className="text-lg sm:text-xl font-semibold text-gray-800">
-                                        Снимки КТ
-                                    </h2>
-                                    {/* Кнопка загрузки КТ */}
-                                    <UiModal button={
-                                        <Button
-                                            variant="secondary"
-                                            className="text-gray-500 hover:text-gray-700 p-2 rounded-full hover:bg-gray-100">
-                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5"
-                                                 viewBox="0 0 20 20"
-                                                 fill="currentColor">
-                                                <path fillRule="evenodd"
-                                                      d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
-                                                      clipRule="evenodd"/>
-                                            </svg>
-                                        </Button>
-                                    }>
-                                        {({close}) => (
-                                            <UploadDicomForm closeModal={close} caseId={selectedCase?.id}/>
-                                        )}
-                                    </UiModal>
-                                </div>
-                                <div className="flex items-center justify-center">
-                                    <DicomViewer key={selectedCase.id} src={selectedCase.dicom_files}/>
-                                </div>
-                            </div>
                         )}
 
                         {/* CAD/CAM Implant Design Section */}
@@ -210,18 +170,12 @@ export default function DentalImplantDashboard() {
                                 className="bg-gradient-to-r from-white to-gray-50 p-4 sm:p-6 rounded-xl shadow-lg border border-gray-200/50">
                                 <div className="flex items-center justify-between mb-4">
                                     <h2 className="text-lg sm:text-xl font-semibold text-gray-800">
-                                        САПР имплантата
+                                        Результаты расчетов
                                     </h2>
-                                    {selectedCase.implant_data && (
-                                        <span
-                                            className="inline-flex items-center px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium bg-blue-100 text-blue-800">
-                                            Рассчитано
-                                        </span>
-                                    )}
                                 </div>
 
                                 {/* Заглушка если нет данных */}
-                                {!selectedCase.implant_data && (
+                                {!selectedCase.result_data && (
                                     <div
                                         className="flex flex-col items-center justify-center min-h-[400px] bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg border-2 border-dashed border-gray-300 p-8">
                                         <div
@@ -244,22 +198,14 @@ export default function DentalImplantDashboard() {
                                             Расчеты не выполнены
                                         </h3>
                                         <p className="text-gray-600 text-center max-w-md mb-6">
-                                            Параметры имплантата будут автоматически рассчитаны системой на основе
-                                            загруженных КТ-снимков
+                                            Рекомендации будут автоматически рассчитаны системой на основе
+                                            введенных параметров
                                         </p>
-                                        <div className="flex items-center gap-2 text-sm text-gray-500">
-                                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24"
-                                                 stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                                                      d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                            </svg>
-                                            <span>Загрузите данные кт в форму выше</span>
-                                        </div>
                                     </div>
                                 )}
 
                                 {/* Отображение данных */}
-                                {selectedCase.implant_data && (
+                                {selectedCase.result_data && (
                                     <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 sm:gap-8">
                                         {/* Calculated Parameters */}
                                         <div
@@ -286,53 +232,51 @@ export default function DentalImplantDashboard() {
                                                 </h3>
                                             </div>
                                             <div className="space-y-3 sm:space-y-4">
-                                                {/* График плотности */}
-                                                <div className="relative w-full aspect-video">
-                                                    <img
-                                                        src={selectedCase.implant_data.density_graph}
-                                                        alt="График плотности кости"
-                                                        className="object-contain"
-                                                    />
-                                                </div>
-
                                                 {/* Параметры */}
                                                 {[
                                                     {
-                                                        label: 'Диаметр имплантата:',
-                                                        value: `${selectedCase.implant_data.diameter} мм`
+                                                        label: 'Объем щитовидной железы (мл):',
+                                                        value: selectedCase.result_data.thyroid_volume
                                                     },
                                                     {
-                                                        label: 'Длина имплантата:',
-                                                        value: `${selectedCase.implant_data.length} мм`
+                                                        label: 'сТ4 (нг/дл):',
+                                                        value: selectedCase.result_data.st4
                                                     },
                                                     {
-                                                        label: 'Форма резьбы:',
-                                                        value: selectedCase.implant_data.thread_shape
+                                                        label: 'ТТГ (мкМЕ/мл):',
+                                                        value: selectedCase.result_data.ttg
                                                     },
                                                     {
-                                                        label: 'Шаг резьбы:',
-                                                        value: `${selectedCase.implant_data.thread_pitch} мм`
+                                                        label: 'АтрТТГ (МЕ/л):',
+                                                        value: selectedCase.result_data.atrttg
                                                     },
                                                     {
-                                                        label: 'Глубина резьбы:',
-                                                        value: selectedCase.implant_data.thread_depth
-                                                    },
-                                                    {label: 'Тип кости:', value: selectedCase.implant_data.bone_type},
-                                                    {
-                                                        label: 'Плотность по Хаунсфилду:',
-                                                        value: `${selectedCase.implant_data.hu_density} HU`
+                                                        label: 'Эндокринная офтальмопатия (стадия 0-3):',
+                                                        value: selectedCase.result_data.eop_stage
                                                     },
                                                     {
-                                                        label: 'Жевательная нагрузка:',
-                                                        value: `${selectedCase.implant_data.chewing_load} кгс`
+                                                        label: 'Суточная доза тиреостатиков (мг/сут):',
+                                                        value: selectedCase.result_data.thyrostatic_daily_dose_mg
                                                     },
                                                     {
-                                                        label: 'Предельное напряжение:',
-                                                        value: `${selectedCase.implant_data.limit_stress} кг/мм²`
+                                                        label: 'Длительность тиреостатической терапии (мес.):',
+                                                        value: selectedCase.result_data.thyrostatic_therapy_duration_months
                                                     },
                                                     {
-                                                        label: 'Площадь поверхности резьбы:',
-                                                        value: `${selectedCase.implant_data.surface_area} мм²`
+                                                        label: 'Осложнения со стороны ССС:',
+                                                        value: selectedCase.result_data.ccc_complications
+                                                    },
+                                                    {
+                                                        label: 'Компрессионный синдром:',
+                                                        value: selectedCase.result_data.compression_syndrome
+                                                    },
+                                                    {
+                                                        label: 'Полиморфизм гена SLCO1B1:',
+                                                        value: selectedCase.result_data.slco1b1_polymorphism
+                                                    },
+                                                    {
+                                                        label: 'Множественные узлы в ЩЖ:',
+                                                        value: selectedCase.result_data.multiple_thyroid_nodules
                                                     }
                                                 ].map((param, index) => (
                                                     <div
@@ -379,11 +323,9 @@ export default function DentalImplantDashboard() {
                                             <div
                                                 className="bg-gradient-to-br border-2 border-dashed border-gray-700/50 rounded-xl w-full h-64 sm:h-96 lg:h-[500px] flex items-center justify-center relative overflow-hidden">
                                                 <div className="flex w-full h-full justify-center items-center">
-                                                    <img
-                                                        src={selectedCase.implant_data.visualization_image}
-                                                        alt="Визуализация имплантата"
-                                                        className="object-contain p-4"
-                                                    />
+                                                    <UiTextArea>
+                                                        {selectedCase.recommendation}
+                                                    </UiTextArea>
                                                 </div>
                                             </div>
                                         </div>
@@ -407,12 +349,10 @@ export default function DentalImplantDashboard() {
                                         </svg>
                                     </div>
                                     <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2 sm:mb-3">
-                                        Добро пожаловать в систему планирования имплантатов
+                                        Добро пожаловать в систему расчета интегрального показателя токсических форм зоба
                                     </h2>
                                     <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6 leading-relaxed">
-                                        Выберите пациента из списка слева для начала работы. Система
-                                        автоматически рассчитает оптимальные параметры дентального
-                                        имплантата на основе данных компьютерной томографии.
+                                        Выберите пациента из списка слева для начала работы.
                                     </p>
                                     <button
                                         onClick={() => setIsMobileSidebarOpen(true)}

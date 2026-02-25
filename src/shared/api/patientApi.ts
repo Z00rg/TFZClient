@@ -16,28 +16,23 @@ export type PatientCase = {
     user: number;
     diagnosis: string;
     created_at: string;
-    implant_data: Implant_data;
-    dicom_files: string[];
+    result_data: Result_data;
+    recommendation: string;
 }
 
-export type Implant_data = {
-    id: number;
-    visualization_image: string;
-    density_graph: string;
-    diameter: number;
-    length: number;
-    thread_shape: string;
-    thread_pitch: number;
-    thread_depth: string;
-    bone_type: string;
-    hu_density: number;
-    chewing_load: number;
-    limit_stress: number;
-    surface_area: number;
-    is_calculated: boolean;
-    created_at: string;
-    case: number;
-    implant_variant: number;
+export type Result_data = {
+    st4: number | '';
+    ttg: number | '';
+    atrttg: number | '';
+    thyroid_volume: number | '';
+    eop_stage: number | '';
+    thyrostatic_daily_dose_mg: number | '';
+    thyrostatic_therapy_duration_months: number | '';
+    ccc_complications: boolean;
+    compression_syndrome: boolean;
+    slco1b1_polymorphism: boolean;
+    multiple_thyroid_nodules: boolean;
+    recommendation: string;
 }
 
 export type CreatePatient = {

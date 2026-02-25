@@ -1,7 +1,7 @@
 import {useGetPatientCasesList} from "@/features/patient/model/useGetPatientCasesList";
 import {PatientCaseCardSkeleton} from "@/shared/ui/Skeleton";
 import {Button} from "@/shared/ui/Button";
-import {PatientCase} from "@/shared/api/patientApi";
+import {Patient, PatientCase} from "@/shared/api/patientApi";
 import {UiModal} from "@/shared/ui/UiModal";
 import {CreateCaseForm} from "@/features/case/ui/createCaseForm";
 
@@ -9,10 +9,11 @@ type PatientCasesListProps = {
     selectedCase: PatientCase | null;
     setSelectedCase: (selectedCase: PatientCase) => void;
     idPatient: string;
-    onOpenCase: (Case: PatientCase) => void
+    onOpenCase: (Case: PatientCase) => void;
+    selectedPatient: Patient;
 }
 
-export function PatientCasesList({ selectedCase, setSelectedCase, idPatient, onOpenCase }: PatientCasesListProps) {
+export function PatientCasesList({ selectedCase, selectedPatient, setSelectedCase, idPatient, onOpenCase }: PatientCasesListProps) {
 
     const { patientCasesList, isError, isLoading} = useGetPatientCasesList(idPatient);
 
@@ -83,7 +84,8 @@ export function PatientCasesList({ selectedCase, setSelectedCase, idPatient, onO
                         </Button>
                     }>
                         {({close}) => (
-                            <CreateCaseForm closeModal={close} patient={idPatient}/>
+                            //TODO Заглушка для возраста, заменить дату рождения на возраст
+                            <CreateCaseForm closeModal={close} idPatient={idPatient} age={45} gender={selectedPatient.gender}/>
                         )}
                     </UiModal>
                 </div>
@@ -122,7 +124,8 @@ export function PatientCasesList({ selectedCase, setSelectedCase, idPatient, onO
                         </Button>
                     }>
                         {({close}) => (
-                            <CreateCaseForm closeModal={close} patient={idPatient}/>
+                            //TODO Заглушка для возраста, заменить дату рождения на возраст
+                            <CreateCaseForm closeModal={close} idPatient={idPatient} age={45} gender={selectedPatient.gender}/>
                         )}
                     </UiModal>
                 </div>

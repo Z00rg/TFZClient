@@ -5,11 +5,21 @@ import {createInstance, RequestOptions} from "./api-instance";
 export type CreateCase = {
     patient: string;
     diagnosis: string;
+    patient_par: Patient_data;
 }
 
-export type UploadDicomDto = {
-    case_id: number;
-    file: File;
+export type Patient_data = {
+    st4: number | '';
+    ttg: number | '';
+    atrttg: number | '';
+    thyroid_volume: number | '';
+    eop_stage: number | '';
+    thyrostatic_daily_dose_mg: number | '';
+    thyrostatic_therapy_duration_months: number | '';
+    ccc_complications: boolean;
+    compression_syndrome: boolean;
+    slco1b1_polymorphism: boolean;
+    multiple_thyroid_nodules: boolean;
 }
 
 // API
@@ -20,24 +30,6 @@ export const createCase = (data: CreateCase, options?: RequestOptions) =>
         options,
     );
 
-export const uploadDicom = (data: UploadDicomDto, options?: RequestOptions) => {
-    const formData = new FormData();
-    formData.append('file', data.file);
-
-    return createInstance<void>(
-        {
-            url: `/cases/${data.case_id}/upload-dicom/`,
-            method: "POST",
-            data: formData,
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            }
-        },
-        options,
-    );
-};
-
 export const caseApi = {
     createCase,
-    uploadDicom,
 };
