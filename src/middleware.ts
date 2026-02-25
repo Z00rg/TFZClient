@@ -66,7 +66,7 @@ export default function middleware(request: NextRequest) {
                 response = NextResponse.next();
             }
         }
-        // Если роль не определена (на всякий случай)
+        // Если роль не определена
         else {
             // Разлогиниваем пользователя без роли
             const signInUrl = new URL('/sign-in', request.url);

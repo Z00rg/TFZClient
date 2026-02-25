@@ -8,17 +8,17 @@ const montserrat = Montserrat({subsets: ['latin']});
 
 export const metadata: Metadata = {
     title: {
-        default: "Планирование дентальных имплантов",
-        template: "%s — АРМ врача",
+        default: "Калькулятор ТФЗ",
+        template: "%s",
     },
     robots: {
         index: true,
         follow: true,
     },
-    description: "Система автоматизированного проектирования для планирования дентальных имплантов",
-    applicationName: "Планирование дентальных имплантов",
+    description: "Система расчета интегрального показателя токсических форм зоба",
+    applicationName: "Калькулятор ТФЗ",
     appleWebApp: {
-        title: "Планирование дентальных имплантов",
+        title: "Калькулятор ТФЗ",
         capable: true,
     },
     icons: {
@@ -27,8 +27,8 @@ export const metadata: Metadata = {
 
     // OpenGraph preview
     openGraph: {
-        title: "Планирование дентальных имплантов",
-        description: "Система автоматизированного проектирования для планирования дентальных имплантов",
+        title: "Калькулятор ТФЗ",
+        description: "Система расчета интегрального показателя токсических форм зоба",
         type: "website",
         url: "https://dental-implant-smr.ru/",
         images: [
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
                 url: "https://dental-implant-smr.ru/og-atlas.png",
                 width: 1200,
                 height: 630,
-                alt: "Планирование дентальных имплантов",
+                alt: "Калькулятор ТФЗ",
             },
         ],
     },
