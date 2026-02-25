@@ -8,8 +8,6 @@ import { useEffect } from "react";
 export type UseCreateCaseFormProps = {
     closeModal: () => void;
     idPatient: string;
-    age: number;
-    gender: 0 | 1;
 };
 
 export function useCreateCaseForm({ closeModal, idPatient }: UseCreateCaseFormProps) {

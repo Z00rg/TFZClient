@@ -13,7 +13,7 @@ type PatientCasesListProps = {
     selectedPatient: Patient;
 }
 
-export function PatientCasesList({ selectedCase, selectedPatient, setSelectedCase, idPatient, onOpenCase }: PatientCasesListProps) {
+export function PatientCasesList({ selectedCase, setSelectedCase, idPatient, onOpenCase }: PatientCasesListProps) {
 
     const { patientCasesList, isError, isLoading} = useGetPatientCasesList(idPatient);
 
@@ -84,8 +84,7 @@ export function PatientCasesList({ selectedCase, selectedPatient, setSelectedCas
                         </Button>
                     }>
                         {({close}) => (
-                            //TODO Заглушка для возраста, заменить дату рождения на возраст
-                            <CreateCaseForm closeModal={close} idPatient={idPatient} age={45} gender={selectedPatient.gender}/>
+                            <CreateCaseForm closeModal={close} idPatient={idPatient}/>
                         )}
                     </UiModal>
                 </div>
@@ -124,8 +123,7 @@ export function PatientCasesList({ selectedCase, selectedPatient, setSelectedCas
                         </Button>
                     }>
                         {({close}) => (
-                            //TODO Заглушка для возраста, заменить дату рождения на возраст
-                            <CreateCaseForm closeModal={close} idPatient={idPatient} age={45} gender={selectedPatient.gender}/>
+                            <CreateCaseForm closeModal={close} idPatient={idPatient} />
                         )}
                     </UiModal>
                 </div>

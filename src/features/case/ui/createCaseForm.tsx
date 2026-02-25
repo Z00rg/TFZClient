@@ -17,8 +17,6 @@ import clsx from "clsx";
 interface CreateCaseFormProps {
     closeModal: () => void;
     idPatient: string;
-    age: number;
-    gender: 0 | 1;
 }
 
 type NumberFieldConfig = {
@@ -130,12 +128,10 @@ function NumberFieldController({
     );
 }
 
-export function CreateCaseForm({ closeModal, idPatient, age, gender }: CreateCaseFormProps) {
+export function CreateCaseForm({ closeModal, idPatient }: CreateCaseFormProps) {
     const { control, handleSubmit, isSubmitting } = useCreateCaseForm({
         closeModal,
         idPatient,
-        age,
-        gender,
     });
 
     return (
