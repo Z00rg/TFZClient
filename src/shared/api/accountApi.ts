@@ -13,7 +13,7 @@ export interface GetProfileInfoDto {
 // Профиль
 export const getProfileInfo = (options?: RequestOptions) =>
     createInstance<GetProfileInfoDto>(
-        {url: `/account/profile/`, method: "GET"},
+        {url: `/profile/`, method: "GET"},
         options
     );
 

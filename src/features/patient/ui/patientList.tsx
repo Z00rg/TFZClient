@@ -78,7 +78,7 @@ export function PatientList({ onOpenPatient }: { onOpenPatient: (patient: Patien
                 >
                     <div className="flex justify-between items-start mb-3">
                         <h3 className="font-medium text-gray-800">
-                            {patient.fio}
+                            {patient.surname} {patient.name} {patient.patronymic}
                         </h3>
                     </div>
                     <div className="flex justify-between mt-1">

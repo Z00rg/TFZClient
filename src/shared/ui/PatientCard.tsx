@@ -6,7 +6,6 @@ type PatientCardProps = {
 };
 
 export function PatientCard({ patient, actions }: PatientCardProps) {
-    const fullName = patient.fio;
 
     return (
         <div className="bg-gradient-to-r from-white to-gray-50 p-4 sm:p-6 rounded-xl shadow-lg border border-gray-200/50">
@@ -26,7 +25,7 @@ export function PatientCard({ patient, actions }: PatientCardProps) {
                         ФИО
                     </label>
                     <p className="mt-1 text-sm sm:text-base lg:text-lg font-semibold text-gray-800 break-words">
-                        {fullName}
+                        {patient.surname} {patient.name} {patient.patronymic}
                     </p>
                 </div>
                 <div className="bg-white p-3 sm:p-4 rounded-lg border border-gray-200/50 shadow-sm min-w-0">

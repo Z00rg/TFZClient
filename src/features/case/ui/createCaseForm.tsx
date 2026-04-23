@@ -9,10 +9,10 @@ import {
     Separator,
     Form,
 } from "react-aria-components";
-import {Control, Controller} from "react-hook-form";
-import { CreateCase } from "@/shared/api/caseApi";
+import { Control, Controller } from "react-hook-form";
 import { Button } from "@/shared/ui/Button";
 import clsx from "clsx";
+import { CalculateData } from "@/shared/api/caseApi";
 
 interface CreateCaseFormProps {
     closeModal: () => void;
@@ -21,13 +21,13 @@ interface CreateCaseFormProps {
 
 type NumberFieldConfig = {
     name:
-        | "patient_par.thyroid_volume"
-        | "patient_par.st4"
-        | "patient_par.ttg"
-        | "patient_par.atrttg"
-        | "patient_par.eop_stage"
-        | "patient_par.thyrostatic_daily_dose_mg"
-        | "patient_par.thyrostatic_therapy_duration_months";
+        | "thyroid_volume"
+        | "st4"
+        | "ttg"
+        | "atrttg"
+        | "eop_stage"
+        | "thyrostatic_daily_dose_mg"
+        | "thyrostatic_therapy_duration_months";
     label: string;
     placeholder: string;
     step: string;
@@ -36,26 +36,26 @@ type NumberFieldConfig = {
 
 type CheckboxFieldConfig = {
     name:
-        | "patient_par.ccc_complications"
-        | "patient_par.compression_syndrome"
-        | "patient_par.slco1b1_polymorphism"
-        | "patient_par.multiple_thyroid_nodules";
+        | "ccc_complications"
+        | "compression_syndrome"
+        | "slco1b1_polymorphism"
+        | "multiple_thyroid_nodules";
     label: string;
 };
 
 const labFields: NumberFieldConfig[] = [
-    { name: "patient_par.st4", label: "сТ4 (нг/дл)", placeholder: "1.5", step: "0.01", min: 0.01 },
-    { name: "patient_par.ttg", label: "ТТГ (мкМЕ/мл)", placeholder: "0.01", step: "0.01", min: 0.01 },
-    { name: "patient_par.atrttg", label: "АтрТТГ (МЕ/л)", placeholder: "12.8", step: "0.01", min: 0.01 },
+    { name: "st4", label: "сТ4 (нг/дл)", placeholder: "1.5", step: "0.01", min: 0.01 },
+    { name: "ttg", label: "ТТГ (мкМЕ/мл)", placeholder: "0.01", step: "0.01", min: 0.01 },
+    { name: "atrttg", label: "АтрТТГ (МЕ/л)", placeholder: "12.8", step: "0.01", min: 0.01 },
 ];
 
 const clinicalFields: NumberFieldConfig[] = [
-    { name: "patient_par.eop_stage", label: "Эндокринная офтальмопатия (стадия 0-3)", placeholder: "Например, 1", step: "1", min: 0 },
-    { name: "patient_par.thyrostatic_daily_dose_mg", label: "Суточная доза тиреостатиков (мг/сут)", placeholder: "30", step: "0.1", min: 0 },
+    { name: "eop_stage", label: "Эндокринная офтальмопатия (стадия 0-3)", placeholder: "Например, 1", step: "1", min: 0 },
+    { name: "thyrostatic_daily_dose_mg", label: "Суточная доза тиреостатиков (мг/сут)", placeholder: "30", step: "0.1", min: 0 },
 ];
 
 const durationField: NumberFieldConfig = {
-    name: "patient_par.thyrostatic_therapy_duration_months",
+    name: "thyrostatic_therapy_duration_months",
     label: "Длительность тиреостатической терапии (мес.)",
     placeholder: "6",
     step: "1",
@@ -63,10 +63,10 @@ const durationField: NumberFieldConfig = {
 };
 
 const checkboxFields: CheckboxFieldConfig[] = [
-    { name: "patient_par.ccc_complications", label: "Осложнения со стороны ССС" },
-    { name: "patient_par.compression_syndrome", label: "Компрессионный синдром" },
-    { name: "patient_par.slco1b1_polymorphism", label: "Полиморфизм гена SLCO1B1" },
-    { name: "patient_par.multiple_thyroid_nodules", label: "Множественные узлы в ЩЖ (> 10 мм)" },
+    { name: "ccc_complications", label: "Осложнения со стороны ССС" },
+    { name: "compression_syndrome", label: "Компрессионный синдром" },
+    { name: "slco1b1_polymorphism", label: "Полиморфизм гена SLCO1B1" },
+    { name: "multiple_thyroid_nodules", label: "Множественные узлы в ЩЖ (> 10 мм)" },
 ];
 
 const cardClass = "border border-blue-200 p-6 rounded-2xl bg-gradient-to-br from-blue-50/80 to-blue-100/50 shadow-md";
@@ -82,13 +82,13 @@ function NumberFieldController({
                                    className,
                                }: {
     fieldConfig: NumberFieldConfig;
-    control: Control<CreateCase>;
+    control: Control<CalculateData>;
     isRequired?: boolean;
     className?: string;
 }) {
     const { name, label, placeholder, step, min } = fieldConfig;
     return (
-        <Controller<CreateCase>
+        <Controller<CalculateData>
             name={name}
             control={control}
             rules={{
@@ -164,7 +164,7 @@ export function CreateCaseForm({ closeModal, idPatient }: CreateCaseFormProps) {
                     <Separator className="text-blue-200 my-5" />
 
                     <NumberFieldController
-                        fieldConfig={{ name: "patient_par.thyroid_volume", label: "Объем щитовидной железы (мл)", placeholder: "Например, 18.5", step: "0.1", min: 0.1 }}
+                        fieldConfig={{ name: "thyroid_volume", label: "Объем щитовидной железы (мл)", placeholder: "Например, 18.5", step: "0.1", min: 0.1 }}
                         control={control}
                     />
                 </div>
@@ -207,7 +207,7 @@ export function CreateCaseForm({ closeModal, idPatient }: CreateCaseFormProps) {
                     {/* Чекбоксы */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {checkboxFields.map(({ name, label }) => (
-                            <Controller<CreateCase>
+                            <Controller<CalculateData>
                                 key={name}
                                 name={name}
                                 control={control}

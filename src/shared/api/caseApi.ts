@@ -2,13 +2,8 @@ import {createInstance, RequestOptions} from "./api-instance";
 
 // DTO
 
-export type CreateCase = {
-    patient: string;
-    diagnosis: string;
-    patient_par: Patient_data;
-}
-
-export type Patient_data = {
+export type CalculateData = {
+    mode: string | '';
     st4: number | '';
     ttg: number | '';
     atrttg: number | '';
@@ -24,9 +19,9 @@ export type Patient_data = {
 
 // API
 
-export const createCase = (data: CreateCase, options?: RequestOptions) =>
+export const createCase = (idPatient: string, data: CalculateData, options?: RequestOptions) =>
     createInstance<void>(
-        {url: `/cases/create/`, method: "POST", data: data},
+        {url: `/patients/${idPatient}/calculate/`, method: "POST", data: data},
         options,
     );
 

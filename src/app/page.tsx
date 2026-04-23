@@ -54,10 +54,10 @@ export default function DentalImplantDashboard() {
 
                             <div className="min-w-0 flex-1">
                                 <h1 className="text-sm sm:text-base lg:text-xl font-bold text-[#000000] font-montserrat truncate">
-                                    АРМ врача - Планирование дентальных имплантатов
+                                    АРМ врача - Калькулятор ТФЗ
                                 </h1>
                                 <p className="text-[#006CB4] text-xs sm:text-sm font-open-sans hidden sm:block">
-                                    Система автоматизированного проектирования
+                                    Система автоматизированных расчетов
                                 </p>
                             </div>
                         </div>
@@ -175,7 +175,7 @@ export default function DentalImplantDashboard() {
                                 </div>
 
                                 {/* Заглушка если нет данных */}
-                                {!selectedCase.result_data && (
+                                {!selectedCase && (
                                     <div
                                         className="flex flex-col items-center justify-center min-h-[400px] bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg border-2 border-dashed border-gray-300 p-8">
                                         <div
@@ -205,7 +205,7 @@ export default function DentalImplantDashboard() {
                                 )}
 
                                 {/* Отображение данных */}
-                                {selectedCase.result_data && (
+                                {selectedCase && (
                                     <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 sm:gap-8">
                                         {/* Calculated Parameters */}
                                         <div
@@ -236,47 +236,47 @@ export default function DentalImplantDashboard() {
                                                 {[
                                                     {
                                                         label: 'Объем щитовидной железы (мл):',
-                                                        value: selectedCase.result_data.thyroid_volume
+                                                        value: selectedCase.thyroid_volume
                                                     },
                                                     {
                                                         label: 'сТ4 (нг/дл):',
-                                                        value: selectedCase.result_data.st4
+                                                        value: selectedCase.st4
                                                     },
                                                     {
                                                         label: 'ТТГ (мкМЕ/мл):',
-                                                        value: selectedCase.result_data.ttg
+                                                        value: selectedCase.ttg
                                                     },
                                                     {
                                                         label: 'АтрТТГ (МЕ/л):',
-                                                        value: selectedCase.result_data.atrttg
+                                                        value: selectedCase.atrttg
                                                     },
                                                     {
                                                         label: 'Эндокринная офтальмопатия (стадия 0-3):',
-                                                        value: selectedCase.result_data.eop_stage
+                                                        value: selectedCase.eop_stage
                                                     },
                                                     {
                                                         label: 'Суточная доза тиреостатиков (мг/сут):',
-                                                        value: selectedCase.result_data.thyrostatic_daily_dose_mg
+                                                        value: selectedCase.thyrostatic_daily_dose_mg
                                                     },
                                                     {
                                                         label: 'Длительность тиреостатической терапии (мес.):',
-                                                        value: selectedCase.result_data.thyrostatic_therapy_duration_months
+                                                        value: selectedCase.thyrostatic_therapy_duration_months
                                                     },
                                                     {
                                                         label: 'Осложнения со стороны ССС:',
-                                                        value: selectedCase.result_data.ccc_complications
+                                                        value: selectedCase.ccc_complications ? "Есть" : "Нет"
                                                     },
                                                     {
                                                         label: 'Компрессионный синдром:',
-                                                        value: selectedCase.result_data.compression_syndrome
+                                                        value: selectedCase.compression_syndrome ? "Есть" : "Нет"
                                                     },
                                                     {
                                                         label: 'Полиморфизм гена SLCO1B1:',
-                                                        value: selectedCase.result_data.slco1b1_polymorphism
+                                                        value: selectedCase.slco1b1_polymorphism ? "Есть" : "Нет"
                                                     },
                                                     {
                                                         label: 'Множественные узлы в ЩЖ:',
-                                                        value: selectedCase.result_data.multiple_thyroid_nodules
+                                                        value: selectedCase.mode === "mtz" ? "Есть" : "Нет"
                                                     }
                                                 ].map((param, index) => (
                                                     <div
@@ -317,7 +317,7 @@ export default function DentalImplantDashboard() {
                                                     </svg>
                                                 </div>
                                                 <h3 className="text-base sm:text-lg font-medium text-gray-800">
-                                                    Визуализация имплантата
+                                                    Рекомендации
                                                 </h3>
                                             </div>
                                             <div

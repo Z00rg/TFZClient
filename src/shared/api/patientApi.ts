@@ -4,7 +4,9 @@ import {createInstance, RequestOptions} from "./api-instance";
 
 export type Patient = {
     id: string;
-    fio: string;
+    name: string;
+    surname: string;
+    patronymic: string;
     birth_date: string;
     gender: 0 | 1;
 }
@@ -16,7 +18,18 @@ export type PatientCase = {
     user: number;
     diagnosis: string;
     created_at: string;
-    result_data: Result_data;
+    mode: string;
+    st4: number | '';
+    ttg: number | '';
+    atrttg: number | '';
+    thyroid_volume: number | '';
+    eop_stage: number | '';
+    thyrostatic_daily_dose_mg: number | '';
+    thyrostatic_therapy_duration_months: number | '';
+    ccc_complications: boolean;
+    compression_syndrome: boolean;
+    slco1b1_polymorphism: boolean;
+    multiple_thyroid_nodules: boolean;
     recommendation: string;
 }
 
@@ -61,13 +74,13 @@ export const getPatientCase = (idPatient: string | undefined, idCase: number | u
 
 export const getPatientCasesList = (idPatient: string, options?: RequestOptions) =>
     createInstance<PatientCase[]>(
-        {url: `/patients/${idPatient}/cases/`, method: "GET"},
+        {url: `/patients/${idPatient}/calculations/`, method: "GET"},
         options
     );
 
 export const createPatient = (data: CreatePatient, options?: RequestOptions) =>
     createInstance<void>(
-        {url: `/patients/create/`, method: "POST", data: data},
+        {url: `/patients/`, method: "POST", data: data},
         options,
     );
 

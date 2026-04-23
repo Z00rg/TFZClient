@@ -64,7 +64,7 @@ export function UiTextArea({
             className={clsx(
                 className,
                 heightProps,
-                "bg-white rounded-xl shadow-md p-8 mb-8 border border-slate-200",
+                "bg-white  p-8 mb-8",
                 "text-slate-700 text-lg"
             )}
         >

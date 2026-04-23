@@ -108,7 +108,7 @@ export function PatientCasesList({ selectedCase, setSelectedCase, idPatient, onO
                                     Прием от {item.created_at}
                                 </h3>
                                 <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 whitespace-nowrap flex-shrink-0">
-                                    {item.diagnosis}
+                                    Рекомендация рассчитана
                                 </span>
                             </div>
                         </div>

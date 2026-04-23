@@ -1,15 +1,15 @@
 import {useMutation} from "@tanstack/react-query";
 import {queryClient} from "@/shared/api/query-client";
-import {caseApi, CreateCase} from "@/shared/api/caseApi";
+import {caseApi, CalculateData} from "@/shared/api/caseApi";
 import {queue} from "@/shared/ui/Toast";
 
 // Action после мутации
 type OnSuccessAction = () => void;
 
 // Добавление нового приема
-export function useCreateCaseMutation({ onSuccessActions }: { onSuccessActions?: OnSuccessAction[] }) {
+export function useCreateCaseMutation({ idPatient, onSuccessActions }: { idPatient: string, onSuccessActions?: OnSuccessAction[] }) {
     return useMutation({
-        mutationFn: (data: CreateCase) => caseApi.createCase(data),
+        mutationFn: (data: CalculateData) => caseApi.createCase(idPatient, data),
         onSuccess: () => {
             queryClient.invalidateQueries();
             onSuccessActions?.forEach(onSuccessAction => onSuccessAction());
