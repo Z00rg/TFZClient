@@ -6,7 +6,7 @@ export function SignOutButton({className}: { className?: string }) {
 
     return (
         <button
-            className={clsx(className, "bg-[#006CB4] hover:bg-[#005A94] text-white px-4 py-2 rounded-lg text-sm transition-all duration-200")}
+            className={clsx(className, "bg-[#006CB4] hover:bg-[#005A94] text-white px-4 py-2 rounded-lg text-sm transition-all duration-200 cursor-pointer")}
             onClick={() => signOut({})}
         >
             Выход

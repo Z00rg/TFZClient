@@ -4,6 +4,7 @@ import {Button} from "@/shared/ui/Button";
 import {Patient, PatientCase} from "@/shared/api/patientApi";
 import {UiModal} from "@/shared/ui/UiModal";
 import {CreateCaseForm} from "@/features/case/ui/createCaseForm";
+import {PatientCasesChart} from "@/features/patient/ui/PatientCasesChart";
 
 type PatientCasesListProps = {
     selectedCase: PatientCase | null;
@@ -90,6 +91,10 @@ export function PatientCasesList({ selectedCase, setSelectedCase, idPatient, onO
                 </div>
             )}
 
+            {!isLoading && !isError && patientCasesList && patientCasesList.length >= 2 && (
+                <PatientCasesChart cases={patientCasesList} />
+            )}
+
             {/* Список приемов */}
             {!isLoading && !isError && patientCasesList && patientCasesList.length > 0 && (
                 <div className="flex flex-col sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
@@ -108,7 +113,7 @@ export function PatientCasesList({ selectedCase, setSelectedCase, idPatient, onO
                                     Прием от {item.created_at}
                                 </h3>
                                 <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 whitespace-nowrap flex-shrink-0">
-                                    Рекомендация рассчитана
+                                    {item.mode === "dtz" ? "ДТЗ" : "МТЗ"}
                                 </span>
                             </div>
                         </div>

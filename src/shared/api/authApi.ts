@@ -51,7 +51,7 @@ const signUp = (body: SignUpBodyDto, options?: RequestOptions) =>
 const signOut = (options?: RequestOptions) =>
     createInstance<void>(
         {
-            url: "/logout/",
+            url: "/auth/logout/",
             method: "POST",
         },
         options
